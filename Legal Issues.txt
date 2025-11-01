@@ -8,8 +8,8 @@ Legal Issues
   Here are the main ones:
 
 React Native / Expo – for building the app (MIT License)
-Node.js / Express.js – for backend services (MIT License)
-Firebase – for database and user authentication (Google License)
+Spring Boot – for backend services (MIT License)
+PostgreSQL– for database and user authentication (Google License)
 Google Fit API / Apple HealthKit – for tracking workouts (requires user permission)
 Lottie animations / open-source icons – only using free and open licensed media
 

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeamRun RPG – Storyboard 1→10</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { scroll-behavior: smooth; }
+    .panel { min-height: 100vh; display: grid; place-items: center; }
+    .badge { @apply text-xs font-semibold px-2 py-1 rounded-full; }
+    .card { @apply bg-gray-800/70 border border-white/10 rounded-2xl p-5; }
+  </style>
+</head>
+<body class="bg-gray-950 text-white font-sans">
+  <!-- Fixed TOP progress + quick nav -->
+  <header class="fixed top-0 inset-x-0 z-50 backdrop-blur bg-black/30 border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-2 flex items-center gap-3">
+      <span class="text-sm opacity-80">TeamRun storyboard</span>
+      <nav class="hidden md:flex gap-2 text-xs">
+        <a href="#s1" class="px-2 py-1 rounded bg-white/10">1</a>
+        <a href="#s2" class="px-2 py-1 rounded bg-white/10">2</a>
+        <a href="#s3" class="px-2 py-1 rounded bg-white/10">3</a>
+        <a href="#s4" class="px-2 py-1 rounded bg-white/10">4</a>
+        <a href="#s5" class="px-2 py-1 rounded bg-white/10">5</a>
+        <a href="#s6" class="px-2 py-1 rounded bg-white/10">6</a>
+        <a href="#s7" class="px-2 py-1 rounded bg-white/10">7</a>
+        <a href="#s8" class="px-2 py-1 rounded bg-white/10">8</a>
+        <a href="#s9" class="px-2 py-1 rounded bg-white/10">9</a>
+        <a href="#s10" class="px-2 py-1 rounded bg-white/10">10</a>
+      </nav>
+      <div class="ml-auto text-xs opacity-70">Use ↑/↓ or ◀/▶ to step</div>
+    </div>
+  </header>
+
+  <!-- 1. LOG IN / START -->
+  <section id="s1" class="panel bg-gradient-to-br from-fuchsia-900 to-indigo-900 pt-20">
+    <div class="w-[360px] sm:w-[420px] card bg-purple-700/40">
+      <h2 class="text-center text-lg font-bold mb-4"> Log In</h2>
+      <div class="flex justify-center mb-4">
+        <div class="w-28 h-28 rounded-xl bg-indigo-600 grid place-items-center shadow">
+          <span class="text-2xl font-black">RUN</span>
+        </div>
+      </div>
+      <p class="text-center text-sm opacity-80 mb-2">Create an account</p>
+      <input type="email" placeholder="Example@gmail.com" class="w-full bg-black/30 rounded-lg px-3 py-2 border border-white/10 outline-none focus:ring-2 focus:ring-indigo-400" />
+      <button class="mt-3 w-full bg-indigo-700 hover:bg-indigo-600 rounded-lg py-2 font-semibold">Continue</button>
+      <div class="mt-4 text-[10px] text-center opacity-60">
+        By continuing, you agree to our <a class="underline" href="#">Terms</a> & <a class="underline" href="#">Privacy</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. HERO SPLASH / CTA -->
+  <section id="s2" class="panel bg-gradient-to-br from-slate-900 to-gray-900 pt-20">
+    <div class="max-w-4xl w-full px-6">
+      <h2 class="text-center text-4xl md:text-5xl font-extrabold mb-8 text-pink-300"> Ready for Your Fitness Quest?</h2>
+      <div class="grid md:grid-cols-3 gap-4 mb-8">
+        <div class="card text-center">
+          <div class="text-2xl">🏋️</div>
+          <h3 class="font-semibold">Workout Tracking</h3>
+          <p class="text-sm opacity-70">Turn exercises into character XP.</p>
+        </div>
+        <div class="card text-center">
+          <div class="text-2xl">💧</div>
+          <h3 class="font-semibold">Hydration</h3>
+          <p class="text-sm opacity-70">Water intake boosts health stats.</p>
+        </div>
+        <div class="card text-center">
+          <div class="text-2xl">🏆</div>
+          <h3 class="font-semibold">Progression</h3>
+          <p class="text-sm opacity-70">Level up through consistency.</p>
+        </div>
+      </div>
+      <div class="flex justify-center"><a href="#s3" class="px-6 py-3 rounded-full bg-pink-600 hover:bg-pink-500 font-bold">Start Your Adventure</a></div>
+      <p class="mt-4 text-center text-xs opacity-60">Transform your fitness routine into an epic RPG journey today!</p>
+    </div>
+  </section>
+
+  <!-- 3. CHARACTER CREATION -->
+  <section id="s3" class="panel bg-gradient-to-br from-lime-700 to-emerald-700 pt-20">
+    <div class="max-w-5xl w-full grid md:grid-cols-2 gap-8 px-6">
+      <h2 class="md:col-span-2 text-3xl md:text-4xl font-extrabold text-center mb-2"> Feature Demo: Character Creation</h2>
+      <div class="card">
+        <h3 class="font-semibold mb-3">Create Your Hero</h3>
+        <label class="text-xs opacity-70">Character Name</label>
+        <input class="w-full mb-3 bg-black/30 rounded-lg px-3 py-2 border border-white/10" placeholder="Enter your name" />
+        <label class="text-xs opacity-70">Class</label>
+        <div class="grid grid-cols-3 gap-2 mb-3">
+          <button class="bg-indigo-600 rounded py-2">Warrior</button>
+          <button class="bg-green-600 rounded py-2">Ranger</button>
+          <button class="bg-purple-600 rounded py-2">Mage</button>
+        </div>
+        <label class="text-xs opacity-70">Appearance</label>
+        <div class="flex gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-gray-600"></div>
+          <div class="w-8 h-8 rounded-full bg-gray-500"></div>
+          <div class="w-8 h-8 rounded-full bg-gray-400"></div>
+          <div class="w-8 h-8 rounded-full bg-gray-300"></div>
+        </div>
+        <label class="text-xs opacity-70">Starting Stats</label>
+        <div class="bg-black/30 rounded-lg p-3 text-sm">
+          <div class="flex justify-between"><span>Strength</span><span>5</span></div>
+          <div class="flex justify-between"><span>Stamina</span><span>5</span></div>
+          <div class="flex justify-between"><span>Health</span><span>5</span></div>
+        </div>
+        <button class="mt-4 w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-lg">Create Hero</button>
+      </div>
+      <div class="card grid place-items-center">
+        <div class="w-40 h-40 rounded-xl bg-emerald-800 grid place-items-center mb-4">🧑‍🚀</div>
+        <div class="text-center w-full">
+          <h4 class="font-semibold">Your Hero</h4>
+          <p class="text-xs opacity-70">Stats will increase as you complete real‑world workouts</p>
+          <div class="mt-3 bg-black/30 rounded px-3 py-2">
+            <div class="flex justify-between text-sm"><span>Level:</span><span>1</span></div>
+            <div class="h-1.5 bg-white/10 rounded mt-1"><div class="h-1.5 bg-yellow-400 rounded" style="width:12%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. WATER INTAKE TRACKER -->
+  <section id="s4" class="panel bg-gradient-to-br from-sky-900 to-blue-900 pt-20">
+    <div class="max-w-5xl w-full grid md:grid-cols-2 gap-8 px-6">
+      <h2 class="md:col-span-2 text-3xl md:text-4xl font-extrabold text-center"> Water Intake Tracker</h2>
+      <div>
+        <div class="card mb-4 border-l-4 border-cyan-400">
+          <h3 class="text-xl font-semibold text-cyan-300">Hydration = Health</h3>
+          <p class="text-sm opacity-80">Track your water intake to boost your character's health and stamina stats.</p>
+        </div>
+        <div class="card mb-4 border-l-4 border-blue-400">
+          <h3 class="font-semibold text-blue-300 mb-2">Features</h3>
+          <ul class="list-disc pl-5 text-sm opacity-80 space-y-1">
+            <li>Daily water goal tracking</li>
+            <li>Reminder notifications</li>
+            <li>Hydration streak rewards</li>
+            <li>Visual character effects when hydrated</li>
+            <li>Health stat bonuses</li>
+          </ul>
+        </div>
+        <div class="card border-l-4 border-sky-400">
+          <h3 class="font-semibold text-sky-300 mb-1">Health Benefits</h3>
+          <p class="text-sm opacity-80">Proper hydration improves workout recovery and overall health.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="text-center mb-4">
+          <div class="text-5xl">💧</div>
+          <h4 class="font-bold">Daily Water Intake</h4>
+          <p class="text-xs opacity-70">Goal: 8 cups (64 oz)</p>
+        </div>
+        <div class="mb-3">
+          <div class="flex justify-between text-xs opacity-80 mb-1"><span>Today's Progress</span><span>5/8 cups</span></div>
+          <div class="h-3 bg-white/10 rounded"><div class="h-3 bg-cyan-500 rounded" style="width:62.5%"></div></div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mb-4">
+          <button class="bg-cyan-700 rounded p-2">1 Cup</button>
+          <button class="bg-cyan-700 rounded p-2">1 Bottle</button>
+          <button class="bg-gray-700 rounded p-2">Custom</button>
+        </div>
+        <div class="bg-black/30 rounded p-3 mb-3 flex items-center justify-between">
+          <div>
+            <div class="text-sm font-semibold">Hydration Streak</div>
+            <div class="text-xs opacity-70">3 days in a row</div>
+          </div>
+          <span class="badge bg-yellow-600">+5% Health</span>
+        </div>
+        <button class="w-full bg-cyan-600 hover:bg-cyan-500 rounded py-2 font-semibold">Add Water</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. BODY PART FOCUS -->
+  <section id="s5" class="panel bg-gradient-to-br from-rose-900 to-red-900 pt-20">
+    <div class="max-w-5xl w-full grid md:grid-cols-2 gap-8 px-6">
+      <h2 class="md:col-span-2 text-3xl md:text-4xl font-extrabold text-center"> Body Part Focus</h2>
+      <div class="card">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm opacity-70">Focus Selector</span>
+          <div class="flex gap-1"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span><span class="w-2.5 h-2.5 bg-yellow-500 rounded-full"></span><span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span></div>
+        </div>
+        <h3 class="text-center font-bold mb-3">Today's Focus Area</h3>
+        <div class="relative grid place-items-center h-72 bg-black/20 rounded">
+          <div class="absolute -top-2 w-8 h-8 bg-rose-500 rounded-full"></div>
+          <div class="w-56 h-40 bg-white/10 rounded grid place-items-center text-2xl">Leg / Quads / Calves</div>
+          <div class="absolute -bottom-3 w-8 h-8 bg-emerald-500 rounded-full"></div>
+        </div>
+        <div class="bg-black/30 rounded p-3 mt-4 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full grid place-items-center bg-pink-600">🔥</div>
+          <div>
+            <div class="font-semibold text-sm">Current Focus: Arms</div>
+            <div class="text-xs opacity-70">+10% XP for arm exercises</div>
+          </div>
+        </div>
+        <button class="mt-3 w-full bg-pink-600 hover:bg-pink-500 rounded py-2 font-semibold">Confirm Focus</button>
+      </div>
+      <div>
+        <div class="card mb-4 border-l-4 border-pink-500">
+          <h3 class="font-semibold text-pink-300 mb-1">Targeted Training</h3>
+          <p class="text-sm opacity-80">Choose which body part to focus on for bonus XP and specialized workouts.</p>
+        </div>
+        <div class="card mb-4 border-l-4 border-red-500">
+          <h3 class="font-semibold text-red-300 mb-1">Visual Feedback</h3>
+          <ul class="list-disc pl-5 text-sm opacity-80 space-y-1">
+            <li>Selected area glows on character</li>
+            <li>Special animations for focus area</li>
+            <li>Visual muscle growth over time</li>
+            <li>Progress bars for each body part</li>
+          </ul>
+        </div>
+        <div class="card border-l-4 border-rose-500">
+          <h3 class="font-semibold text-rose-300 mb-1">Workout Suggestions</h3>
+          <p class="text-sm opacity-80">We recommend exercises based on your selected focus area to help you stay balanced.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. WORKOUT LOGGING (demo) -->
+  <section id="s6" class="panel bg-gradient-to-br from-emerald-700 to-green-700 pt-20">
+    <div class="max-w-5xl w-full grid md:grid-cols-2 gap-8 px-6">
+      <h2 class="md:col-span-2 text-3xl md:text-4xl font-extrabold text-center"> Feature Demo: Workout Logging</h2>
+      <div class="card grid place-items-center">
+        <div class="w-56 bg-black/20 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold">Squats</h4>
+            <span class="badge bg-emerald-600">Legs</span>
+          </div>
+          <div class="text-center text-3xl mb-3">🏋️</div>
+          <p class="text-sm text-center">+5 Leg Strength · Energy recovery +2%</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="font-semibold mb-4">Log Your Workout</h3>
+        <div class="grid gap-3">
+          <div>
+            <label class="text-xs opacity-70">Body Part</label>
+            <select class="w-full bg-black/30 rounded px-3 py-2 border border-white/10"><option>Legs</option><option>Arms</option><option>Back</option></select>
+          </div>
+          <div>
+            <label class="text-xs opacity-70">Exercise</label>
+            <select class="w-full bg-black/30 rounded px-3 py-2 border border-white/10"><option>Squats</option><option>Lunges</option><option>Deadlifts</option></select>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="text-xs opacity-70">Reps</label><input class="w-full bg-black/30 rounded px-3 py-2 border border-white/10" value="12"/></div>
+            <div><label class="text-xs opacity-70">Weight (lbs)</label><input class="w-full bg-black/30 rounded px-3 py-2 border border-white/10" value="135"/></div>
+          </div>
+          <div>
+            <label class="text-xs opacity-70">Character Animation</label>
+            <div class="flex gap-4 mt-1 text-sm"><label class="flex items-center gap-1"><input type="radio" name="anim" checked/> Play</label><label class="flex items-center gap-1"><input type="radio" name="anim"/> Skip</label></div>
+          </div>
+          <button class="mt-1 w-full bg-emerald-600 hover:bg-emerald-500 rounded py-2 font-semibold">Log Workout</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LOG REPS & WEIGHT (detail) -->
+  <section id="s7" class="panel bg-gradient-to-br from-amber-900 to-stone-800 pt-20">
+    <div class="max-w-5xl w-full grid md:grid-cols-2 gap-8 px-6">
+      <h2 class="md:col-span-2 text-3xl md:text-4xl font-extrabold text-center"> Log Reps & Weight</h2>
+      <div>
+        <div class="card mb-4 border-l-4 border-orange-600">
+          <h3 class="font-semibold text-orange-200 mb-2">Comprehensive Workout RPG System</h3>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="card bg-black/40 border border-orange-900"><div class="text-orange-400 font-semibold">Strength Training</div><div class="text-xs opacity-70">Higher weights = more XP</div></div>
+            <div class="card bg-black/40 border border-amber-900"><div class="text-amber-400 font-semibold">Endurance</div><div class="text-xs opacity-70">More reps = stamina bonuses</div></div>
+            <div class="card bg-black/40 border border-red-900"><div class="text-red-400 font-semibold">Cardio</div><div class="text-xs opacity-70">Distance = movement speed</div></div>
+            <div class="card bg-black/40 border border-yellow-900"><div class="text-yellow-400 font-semibold">Flexibility</div><div class="text-xs opacity-70">Yoga = agility stats</div></div>
+          </div>
+        </div>
+        <div class="card mb-4 border-l-4 border-amber-500">
+          <h3 class="font-semibold text-amber-200 mb-2">XP Calculation</h3>
+          <div class="bg-black/40 rounded p-3 font-mono text-amber-400">XP = (Reps × Weight) × Exercise Multiplier</div>
+          <p class="text-xs opacity-70 mt-1">Different exercises have different multipliers based on intensity.</p>
+        </div>
+        <div class="card border-l-4 border-red-500">
+          <h3 class="font-semibold text-red-200 mb-2">Progression Tracking</h3>
+          <ul class="list-disc pl-5 text-sm opacity-80 space-y-1">
+            <li>Visual graphs of strength gains</li>
+            <li>Milestone achievements</li>
+            <li>Personal records tracking</li>
+            <li>Workout history calendar</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="flex items-center justify-between mb-2"><h4 class="font-bold">Bench Press</h4><div class="flex gap-1"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span><span class="w-2.5 h-2.5 bg-yellow-500 rounded-full"></span><span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span></div></div>
+        <div class="grid gap-3">
+          <div>
+            <label class="text-xs opacity-70">Weight (lb)</label>
+            <input class="w-full bg-black/30 rounded px-3 py-2 border border-white/10" value="135" />
+          </div>
+          <div>
+            <label class="text-xs opacity-70">Repetitions</label>
+            <input class="w-full bg-black/30 rounded px-3 py-2 border border-white/10" value="8" />
+          </div>
+          <div>
+            <label class="text-xs opacity-70">Sets</label>
+            <input class="w-full bg-black/30 rounded px-3 py-2 border border-white/10" value="3" />
+          </div>
+          <div class="pt-2">
+            <div class="flex justify-between text-xs mb-1"><span>XP Earned:</span><span class="text-amber-400 font-bold">+324 XP</span></div>
+            <div class="h-2 bg-white/10 rounded"><div class="h-2 bg-amber-500 rounded" style="width:65%"></div></div>
+          </div>
+          <button class="w-full bg-orange-600 hover:bg-orange-500 rounded py-2 font-semibold">Log Workout</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CHARACTER ANIMATIONS -->
+  <section id="s8" class="panel bg-gradient-to-br from-green-900 to-emerald-900 pt-20">
+    <div class="max-w-5xl w-full grid md:grid-cols-2 gap-8 px-6">
+      <h2 class="md:col-span-2 text-3xl md:text-4xl font-extrabold text-center"> Character Animations</h2>
+      <div class="card grid place-items-center">
+        <div class="w-full max-w-md bg-black/20 rounded-2xl p-6">
+          <div class="w-28 h-28 mx-auto rounded-xl bg-green-700 grid place-items-center mb-4 text-3xl">🪄</div>
+          <h3 class="text-center font-bold">Workout Complete!</h3>
+          <p class="text-center text-sm opacity-70 mb-4">Your character celebrates your achievement</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="card text-center">💪<div class="text-xs mt-1">Strength Boost</div></div>
+            <div class="card text-center">⚡<div class="text-xs mt-1">Energy Surge</div></div>
+            <div class="card text-center">❤️<div class="text-xs mt-1">Health Increase</div></div>
+            <div class="card text-center">🏆<div class="text-xs mt-1">New Ability</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card mb-4 border-l-4 border-emerald-500">
+          <h3 class="font-semibold text-emerald-300 mb-2">Dynamic Exercise Animations</h3>
+          <ul class="space-y-2 text-sm opacity-90">
+            <li>🟢 Weight Training – character strains with heavy weights</li>
+            <li>🔵 Cardio – character runs faster as pace increases</li>
+            <li>🟣 Yoga – character flows smoothly between poses</li>
+          </ul>
+        </div>
+        <div class="card mb-4 border-l-4 border-green-500">
+          <h3 class="font-semibold text-green-300 mb-2">Animation Examples</h3>
+          <ul class="list-disc pl-5 text-sm opacity-80 space-y-1">
+            <li>Pushups → Arm muscles flex</li>
+            <li>Squats → Legs glow with power</li>
+            <li>Cardio → Character runs in place</li>
+            <li>New PR → Victory pose</li>
+            <li>Level up → Full transformation</li>
+          </ul>
+        </div>
+        <div class="card border-l-4 border-teal-500">
+          <h3 class="font-semibold text-teal-300 mb-1">Motivational System</h3>
+          <p class="text-sm opacity-80">Animations provide visual feedback and encouragement to keep users engaged with their fitness journey.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. KEY FEATURES GRID -->
+  <section id="s9" class="panel bg-gradient-to-br from-fuchsia-900 to-violet-900 pt-20">
+    <div class="max-w-5xl w-full px-6">
+      <h2 class="text-center text-3xl md:text-4xl font-extrabold mb-8"> Key Features</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card">
+          <div class="text-2xl">🏋️</div>
+          <h3 class="font-semibold">Workout Logging</h3>
+          <p class="text-sm opacity-80">Log exercises by body part with reps and weights. See your character's stats increase and watch animations.</p>
+        </div>
+        <div class="card">
+          <div class="text-2xl">💧</div>
+          <h3 class="font-semibold">Hydration Tracking</h3>
+          <p class="text-sm opacity-80">Game‑ify water intake with progress bars and battle buffs.</p>
+        </div>
+        <div class="card">
+          <div class="text-2xl">🌱</div>
+          <h3 class="font-semibold">Consistency Rewards</h3>
+          <p class="text-sm opacity-80">Unlock new zones and gear by maintaining workout streaks.</p>
+        </div>
+        <div class="card">
+          <div class="text-2xl">👹</div>
+          <h3 class="font-semibold">Boss Battles</h3>
+          <p class="text-sm opacity-80">Challenge powerful bosses at the end of raids – stats matter!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. SYSTEM ROLES -->
+  <section id="s10" class="panel bg-gradient-to-br from-indigo-900 to-fuchsia-900 pt-20">
+    <div class="max-w-5xl w-full px-6">
+      <h2 class="text-center text-3xl md:text-4xl font-extrabold mb-8"> System Roles</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card">
+          <h3 class="font-bold mb-2">User (Player)</h3>
+          <ul class="space-y-1 text-sm opacity-80">
+            <li>• Logs workouts & water intake</li>
+            <li>• Levels up character</li>
+            <li>• Fights bosses & starts raids</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="font-bold mb-2">System (App)</h3>
+          <ul class="space-y-1 text-sm opacity-80">
+            <li>• Tracks progress & calculates stats</li>
+            <li>• Syncs with heart‑rate data</li>
+            <li>• Manages game progression</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="font-bold mb-2">Raids / Boss (Game AI)</h3>
+          <ul class="space-y-1 text-sm opacity-80">
+            <li>• Controls raids & boss encounters</li>
+            <li>• Scales difficulty with user stats</li>
+            <li>• Initiates battle at raid completion</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 flex justify-center gap-3 text-xs">
+        <a href="#s1" class="px-3 py-1 rounded bg-white/10">Back to 1</a>
+        <a href="#s9" class="px-3 py-1 rounded bg-white/10">Prev (9)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Arrow-key navigation -->
+  <script>
+    const ids = ["s1","s2","s3","s4","s5","s6","s7","s8","s9","s10"]; let i=0;
+    function goto(idx){ i=Math.max(0,Math.min(ids.length-1,idx)); document.getElementById(ids[i]).scrollIntoView({behavior:'smooth'}); }
+    addEventListener('keydown', (e)=>{
+      if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)) { e.preventDefault(); goto(i+1); }
+      if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); goto(i-1); }
+    });
+
+    const obs=new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{ if(en.isIntersecting){ i=ids.indexOf(en.target.id); } });
+    },{threshold:0.6});
+    ids.forEach(id=>obs.observe(document.getElementById(id)));
+  </script>
+</body>
+</html>

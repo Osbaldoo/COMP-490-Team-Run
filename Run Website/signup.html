@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FitQuest – Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+  <div class="bg-gray-800 p-8 rounded-2xl shadow-md w-80">
+    <h2 class="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+
+    <input id="email" type="email" placeholder="Email" class="w-full mb-3 bg-black/30 rounded-lg px-3 py-2 border border-white/10" />
+    <input id="password" type="password" placeholder="Password" class="w-full mb-3 bg-black/30 rounded-lg px-3 py-2 border border-white/10" />
+    <input id="hero" type="text" placeholder="Hero Name" class="w-full mb-3 bg-black/30 rounded-lg px-3 py-2 border border-white/10" />
+
+    <button onclick="registerUser()" class="w-full bg-indigo-600 hover:bg-indigo-500 rounded-lg py-2 font-semibold">Create Account</button>
+
+    <p class="text-xs opacity-60 mt-3 text-center">
+      Already have an account?
+      <a href="login.html" class="underline">Log in</a>
+    </p>
+  </div>
+
+  <script>
+    async function registerUser() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const heroName = document.getElementById("hero").value;
+
+      const res = await fetch("http://localhost:4000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          heroName,
+          stats: { strength: 5, stamina: 5, agility: 5 }
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("✅ Account created successfully!");
+        window.location.href = "login.html"; // redirect if you make a login page later
+      } else {
+        alert("❌ Failed to create account");
+      }
+    }
+  </script>
+</body>
+</html>

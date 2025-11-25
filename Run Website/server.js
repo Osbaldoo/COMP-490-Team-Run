@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -8,8 +9,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+
 // ====== DATABASE CONNECTION ======
-mongoose.connect("mongodb://localhost:27017/fitquest", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -42,7 +45,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // Secret key for signing tokens (keep private!)
-const JWT_SECRET = "supersecret_fitquest_key";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // ====== MIDDLEWARE ======
 const authenticateToken = (req, res, next) => {

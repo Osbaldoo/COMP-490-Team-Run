@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FitQuest - Battle Arena</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .battle-card { @apply bg-gray-800/70 border border-white/10 rounded-xl p-4; }
+    .health-bar { @apply h-4 bg-white/10 rounded-full overflow-hidden; }
+    .health-fill { @apply h-full; }
+    .enemy-health { @apply bg-red-500; }
+    .user-health { @apply bg-green-500; }
+    .damage-text { @apply absolute animate-ping text-red-400 font-bold; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+  <!-- Navigation Header -->
+  <header class="bg-gray-800 border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="fitquest.html" class="w-8 h-8 bg-indigo-600 rounded-lg grid place-items-center font-bold">FQ</a>
+        <h1 class="text-xl font-bold">FitQuest - Battle Arena</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <span id="userHeroName" class="text-sm">Loading...</span>
+        <a href="dashboard.html" class="text-xs bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded">Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Player Stats -->
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold mb-4">Battle Readiness ⚔️</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div class="battle-card text-center">
+          <div class="text-2xl">❤️</div>
+          <div class="font-semibold" id="healthDisplay">Health: 100/100</div>
+          <div class="text-xs opacity-70">Permanent until healed</div>
+        </div>
+        <div class="battle-card text-center">
+          <div class="text-2xl">💪</div>
+          <div class="font-semibold" id="strengthDisplay">Strength: 5</div>
+          <div class="text-xs opacity-70">Increases damage</div>
+        </div>
+        <div class="battle-card text-center">
+          <div class="text-2xl">💰</div>
+          <div class="font-semibold" id="goldDisplay">Gold: 100</div>
+          <div class="text-xs opacity-70">Buy health potions</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Battle Arena -->
+    <section class="mb-8">
+      <h3 class="text-lg font-semibold mb-4">Battle Arena</h3>
+      <div class="battle-card">
+        <div id="battleStart" class="text-center">
+          <div class="text-6xl mb-4">🏟️</div>
+          <h4 class="text-xl font-bold mb-2">Ready for Combat?</h4>
+          <p class="text-sm opacity-70 mb-4">Fight enemies using your workout power! Damage is permanent - manage your health carefully.</p>
+          <button onclick="startBattle()" class="bg-red-600 hover:bg-red-500 px-6 py-3 rounded font-semibold text-lg">
+            Enter Battle Arena
+          </button>
+        </div>
+
+        <div id="battleActive" class="hidden">
+          <!-- Enemy Info -->
+          <div class="text-center mb-6 p-4 bg-red-900/30 rounded-lg">
+            <div id="enemyImageContainer" class="mb-3"></div>
+            <h4 id="enemyName" class="font-bold text-xl text-red-300"></h4>
+            <p id="enemyDescription" class="text-sm opacity-70 mb-3"></p>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm">Enemy HP:</span>
+              <span id="enemyHP" class="font-semibold"></span>
+            </div>
+            <div class="health-bar mb-4">
+              <div id="enemyHPBar" class="health-fill enemy-health"></div>
+            </div>
+          </div>
+
+          <!-- Player Info -->
+          <div class="text-center mb-6 p-4 bg-green-900/30 rounded-lg">
+            <h4 class="font-bold text-xl text-green-300" id="playerName">Your Hero</h4>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm">Your HP:</span>
+              <span id="userHP" class="font-semibold"></span>
+            </div>
+            <div class="health-bar mb-2">
+              <div id="userHPBar" class="health-fill user-health"></div>
+            </div>
+            <div class="text-xs opacity-70" id="healthWarning"></div>
+          </div>
+
+          <!-- Battle Log -->
+          <div id="battleLog" class="bg-black/30 rounded p-3 mb-4 h-32 overflow-y-auto">
+            <div class="text-center opacity-60">Battle log will appear here...</div>
+          </div>
+
+          <!-- Battle Controls -->
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="attackWithWorkout('Power Strike', 15, 100)" class="bg-red-600 hover:bg-red-500 py-2 rounded font-semibold">
+              💪 Power Attack
+            </button>
+            <button onclick="fleeBattle()" class="bg-gray-600 hover:bg-gray-500 py-2 rounded font-semibold">
+              🏃 Flee Battle
+            </button>
+          </div>
+        </div>
+
+        <!-- Battle Result -->
+        <div id="battleResult" class="hidden text-center p-4 rounded-lg mt-4">
+          <h4 id="resultTitle" class="font-bold text-xl mb-2"></h4>
+          <p id="resultMessage" class="mb-3"></p>
+          <button onclick="resetBattle()" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded">
+            Battle Again
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Health Shop -->
+    <section class="mb-8">
+      <h3 class="text-lg font-semibold mb-4">Health Shop 🏥</h3>
+      <div class="battle-card">
+        <p class="text-sm opacity-70 mb-4">Damage is permanent! Buy health potions to recover.</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <button onclick="buyHealth(10)" class="bg-green-600 hover:bg-green-500 py-2 rounded font-semibold">
+            +10 HP (100g)
+          </button>
+          <button onclick="buyHealth(25)" class="bg-green-600 hover:bg-green-500 py-2 rounded font-semibold">
+            +25 HP (250g)
+          </button>
+          <button onclick="buyHealth(50)" class="bg-green-600 hover:bg-green-500 py-2 rounded font-semibold">
+            +50 HP (500g)
+          </button>
+          <button onclick="buyHealth(100)" class="bg-green-600 hover:bg-green-500 py-2 rounded font-semibold">
+            +100 HP (1000g)
+          </button>
+        </div>
+        <div id="shopResult" class="mt-3 text-center text-sm"></div>
+      </div>
+    </section>
+
+    <!-- Battle History -->
+    <section>
+      <h3 class="text-lg font-semibold mb-4">Battle History 📜</h3>
+      <div id="battleHistory" class="battle-card">
+        <div class="text-center py-4 opacity-60">No battles fought yet.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function setEnemyImage(enemyName) {
+    const container = document.getElementById("enemyImageContainer");
+
+  const enemyImageMap = {
+    "The Lazy Dragon": "lazyDragon.jpg",
+    "Procrastination Golem": "procrastinationGolem.jpg",
+    "Motivation Slayer": "motivationSlayer.jpg",
+    "Couch Potato Titan": "placeholder-titan.jpg"
+  };
+  
+  const imageFile = enemyImageMap[enemyName] || "placeholder-enemy.jpg";
+  const imageUrl = `/assets/${imageFile}`;
+  
+  container.innerHTML = `
+    <img src="${imageUrl}" 
+         alt="${enemyName}" 
+         class="w-48 h-48 mx-auto rounded-lg object-cover border-4 border-white/20 shadow-lg"
+         onerror="this.onerror=null; this.src='https://via.placeholder.com/192x192/666666/FFFFFF?text=${enemyName}'">
+  `;
+}
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please log in first!");
+      window.location.href = "login.html";
+    }
+
+    let userData = null;
+    let currentBattle = null;
+
+    async function loadUserData() {
+      try {
+        const res = await fetch("http://localhost:4000/profile", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        userData = await res.json();
+        updateStatsDisplay();
+        updateBattleHistory();
+      } catch (error) {
+        console.error("Error loading user data:", error);
+        window.location.href = "login.html";
+      }
+    }
+
+    function updateStatsDisplay() {
+      if (!userData) return;
+      document.getElementById("userHeroName").textContent = userData.heroName;
+      document.getElementById("healthDisplay").textContent = `Health: ${userData.stats.health}/100`;
+      document.getElementById("strengthDisplay").textContent = `Strength: ${userData.stats.strength}`;
+      document.getElementById("goldDisplay").textContent = `Gold: ${userData.gold}`;
+      
+      // Update health warning
+      const healthWarning = document.getElementById("healthWarning");
+      if (userData.stats.health <= 20) {
+        healthWarning.textContent = "⚠️ Low health! Buy potions before battling.";
+        healthWarning.className = "text-xs text-red-400";
+      } else if (userData.stats.health <= 50) {
+        healthWarning.textContent = "⚠️ Health is getting low.";
+        healthWarning.className = "text-xs text-yellow-400";
+      } else {
+        healthWarning.textContent = "Healthy and ready for battle!";
+        healthWarning.className = "text-xs text-green-400";
+      }
+    }
+
+    async function startBattle() {
+      try {
+        const res = await fetch("http://localhost:4000/battle/start", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        const result = await res.json();
+        
+        if (!result.success) {
+          alert(result.message);
+          return;
+        }
+        
+        currentBattle = result.battle;
+        document.getElementById("battleStart").classList.add("hidden");
+        document.getElementById("battleActive").classList.remove("hidden");
+        updateBattleUI();
+        addBattleLog(result.message);
+        
+      } catch (error) {
+        console.error("Error starting battle:", error);
+        alert("Error starting battle!");
+      }
+    }
+
+    async function attackWithWorkout(workoutName, reps, weight) {
+      try {
+        const res = await fetch("http://localhost:4000/battle/attack", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ workoutName, reps, weight })
+        });
+        const result = await res.json();
+        
+        currentBattle = result.battle;
+        userData.stats.health = result.userHealth;
+        
+        addBattleLog(result.message);
+        updateBattleUI();
+        updateStatsDisplay();
+        
+        if (result.battleResult) {
+          endBattle(result.battleResult);
+        }
+        
+      } catch (error) {
+        console.error("Error attacking:", error);
+      }
+    }
+
+    async function fleeBattle() {
+      try {
+        const res = await fetch("http://localhost:4000/battle/flee", {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const result = await res.json();
+        
+        addBattleLog(result.message);
+        userData.stats.health = result.newHealth;
+        updateStatsDisplay();
+        endBattle({
+          victory: false,
+          message: "You fled from battle!"
+        });
+        
+      } catch (error) {
+        console.error("Error fleeing:", error);
+      }
+    }
+
+    function updateBattleUI() {
+      if (!currentBattle) return;
+      
+      setEnemyImage(currentBattle.enemyName);
+      
+      document.getElementById("enemyName").textContent = currentBattle.enemyName;
+      document.getElementById("enemyDescription").textContent = currentBattle.enemyDescription;
+      document.getElementById("enemyHP").textContent = `${Math.max(0, currentBattle.enemyHP)}/${currentBattle.enemyMaxHP}`;
+      document.getElementById("userHP").textContent = `${Math.max(0, currentBattle.userHP)}/${currentBattle.userMaxHP}`;
+      
+      const enemyHPPercent = (currentBattle.enemyHP / currentBattle.enemyMaxHP) * 100;
+      const userHPPercent = (currentBattle.userHP / currentBattle.userMaxHP) * 100;
+      
+      document.getElementById("enemyHPBar").style.width = `${Math.max(0, enemyHPPercent)}%`;
+      document.getElementById("userHPBar").style.width = `${Math.max(0, userHPPercent)}%`;
+    }
+
+    function addBattleLog(message) {
+      const log = document.getElementById("battleLog");
+      const entry = document.createElement("div");
+      entry.className = "text-sm mb-1";
+      entry.textContent = `⚔️ ${message}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function endBattle(result) {
+      document.getElementById("battleActive").classList.add("hidden");
+      document.getElementById("battleResult").classList.remove("hidden");
+      
+      const resultTitle = document.getElementById("resultTitle");
+      const resultMessage = document.getElementById("resultMessage");
+      
+      if (result.victory) {
+        resultTitle.textContent = "Victory! 🎉";
+        resultTitle.className = "font-bold text-xl mb-2 text-green-400";
+        resultMessage.textContent = result.message;
+      } else {
+        resultTitle.textContent = "Defeat! 💀";
+        resultTitle.className = "font-bold text-xl mb-2 text-red-400";
+        resultMessage.textContent = result.message;
+      }
+      
+      loadUserData(); // Refresh stats
+    }
+
+    function resetBattle() {
+      document.getElementById("battleResult").classList.add("hidden");
+      document.getElementById("battleStart").classList.remove("hidden");
+      document.getElementById("battleLog").innerHTML = '<div class="text-center opacity-60">Battle log will appear here...</div>';
+      currentBattle = null;
+    }
+
+    async function buyHealth(amount) {
+      try {
+        const res = await fetch("http://localhost:4000/shop/buy-health", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ amount })
+        });
+        const result = await res.json();
+        
+        if (result.success) {
+          document.getElementById("shopResult").textContent = result.message;
+          document.getElementById("shopResult").className = "mt-3 text-center text-sm text-green-400";
+          loadUserData();
+        } else {
+          document.getElementById("shopResult").textContent = result.message;
+          document.getElementById("shopResult").className = "mt-3 text-center text-sm text-red-400";
+        }
+      } catch (error) {
+        console.error("Error buying health:", error);
+      }
+    }
+
+    function updateBattleHistory() {
+      if (!userData || !userData.battles || userData.battles.length === 0) return;
+      
+      const container = document.getElementById("battleHistory");
+      const recentBattles = userData.battles.slice(-5).reverse();
+      
+      container.innerHTML = recentBattles.map(battle => `
+        <div class="flex justify-between items-center py-2 border-b border-white/10 last:border-0">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded grid place-items-center text-sm ${
+              battle.victory ? 'bg-green-600' : 'bg-red-600'
+            }">
+              ${battle.victory ? '🎉' : '💀'}
+            </div>
+            <div>
+              <div class="font-semibold">vs ${battle.enemyName}</div>
+              <div class="text-xs opacity-70">
+                ${battle.victory ? 'Victory' : 'Defeat'} • ${new Date(battle.date).toLocaleDateString()}
+              </div>
+            </div>
+          </div>
+          <div class="text-right text-sm">
+            <div class="${battle.victory ? 'text-green-400' : 'text-red-400'}">
+              ${battle.victory ? 'WIN' : 'LOSE'}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.addEventListener("DOMContentLoaded", loadUserData);
+  </script>
+</body>
+</html>

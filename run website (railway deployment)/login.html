@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FitQuest – Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+  <div class="bg-gray-800 p-8 rounded-2xl shadow-md w-80">
+    <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+
+    <input id="email" type="email" placeholder="Email"
+           class="w-full mb-3 bg-black/30 rounded-lg px-3 py-2 border border-white/10" />
+    <input id="password" type="password" placeholder="Password"
+           class="w-full mb-3 bg-black/30 rounded-lg px-3 py-2 border border-white/10" />
+
+    <button onclick="loginUser()"
+            class="w-full bg-indigo-600 hover:bg-indigo-500 rounded-lg py-2 font-semibold">
+      Log In
+    </button>
+
+    <p class="text-xs opacity-60 mt-3 text-center">
+      Don’t have an account? <a href="signup.html" class="underline">Sign up</a>
+    </p>
+  </div>
+
+  <script>
+    async function loginUser() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        localStorage.setItem("token", data.token); // store JWT
+        alert("✅ Login successful!");
+        window.location.href = "dashboard.html"; // create later if you want
+      } else {
+        alert("❌ " + data.message);
+      }
+    }
+  </script>
+</body>
+</html>

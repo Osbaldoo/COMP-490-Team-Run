@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FitQuest - Log Workout</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .exercise-card { @apply bg-gray-800/70 border border-white/10 rounded-xl p-4 hover:bg-gray-700/50 transition cursor-pointer; }
+    .progress-bar { @apply h-2 bg-white/10 rounded-full overflow-hidden; }
+    .progress-fill { @apply h-full bg-gradient-to-r from-blue-500 to-purple-500; }
+    .stat-badge { @apply inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+  <!-- Navigation Header -->
+  <header class="bg-gray-800 border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="fitquest.html" class="w-8 h-8 bg-indigo-600 rounded-lg grid place-items-center font-bold">FQ</a>
+        <h1 class="text-xl font-bold">FitQuest - Training Grounds</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <span id="userHeroName" class="text-sm">Loading...</span>
+        <a href="dashboard.html" class="text-xs bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded">Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Stats Overview -->
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold mb-4">Training Grounds 🏋️</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="exercise-card text-center">
+          <div class="text-2xl">💪</div>
+          <div class="font-semibold" id="strengthDisplay">Strength: 5</div>
+          <div class="text-xs opacity-70">Increases damage</div>
+        </div>
+        <div class="exercise-card text-center">
+          <div class="text-2xl">⚡</div>
+          <div class="font-semibold" id="staminaDisplay">Stamina: 5</div>
+          <div class="text-xs opacity-70">More workout energy</div>
+        </div>
+        <div class="exercise-card text-center">
+          <div class="text-2xl">🏃</div>
+          <div class="font-semibold" id="agilityDisplay">Agility: 5</div>
+          <div class="text-xs opacity-70">Faster recovery</div>
+        </div>
+        <div class="exercise-card text-center">
+          <div class="text-2xl">⭐</div>
+          <div class="font-semibold" id="levelDisplay">Level: 1</div>
+          <div class="text-xs opacity-70" id="xpDisplay">0/100 XP</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Log Workout -->
+    <section class="mb-8">
+      <h3 class="text-lg font-semibold mb-4">Quick Log Workout</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="exercise-card">
+          <h4 class="font-bold mb-3">Log New Exercise</h4>
+          <div class="space-y-3">
+            <div>
+              <label class="text-sm opacity-70">Exercise Type</label>
+              <select id="exerciseType" class="w-full bg-black/30 rounded px-3 py-2 border border-white/10">
+                <option value="squats">Squats (Legs)</option>
+                <option value="pushups">Push-ups (Chest)</option>
+                <option value="lunges">Lunges (Legs)</option>
+                <option value="plank">Plank (Core)</option>
+                <option value="crunches">Crunches (Abs)</option>
+                <option value="jumpingjacks">Jumping Jacks (Cardio)</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-sm opacity-70">Reps</label>
+                <input type="number" id="exerciseReps" value="10" class="w-full bg-black/30 rounded px-3 py-2 border border-white/10">
+              </div>
+              <div>
+                <label class="text-sm opacity-70">Weight (lbs)</label>
+                <input type="number" id="exerciseWeight" value="0" class="w-full bg-black/30 rounded px-3 py-2 border border-white/10">
+              </div>
+            </div>
+            <div>
+              <label class="text-sm opacity-70">Sets</label>
+              <input type="number" id="exerciseSets" value="3" class="w-full bg-black/30 rounded px-3 py-2 border border-white/10">
+            </div>
+            <button onclick="logQuickWorkout()" class="w-full bg-green-600 hover:bg-green-500 rounded py-2 font-semibold">
+              Log Workout & Get Stronger!
+            </button>
+          </div>
+        </div>
+
+        <div class="exercise-card">
+          <h4 class="font-bold mb-3">Workout Preview</h4>
+          <div id="workoutPreview" class="space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span>Exercise:</span>
+              <span id="previewExercise">Squats</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Estimated XP:</span>
+              <span id="previewXP" class="text-yellow-400">+45 XP</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Stat Bonus:</span>
+              <span id="previewStat" class="text-green-400">+Strength</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Battle Power:</span>
+              <span id="previewDamage" class="text-red-400">+15 Damage</span>
+            </div>
+          </div>
+          <div class="mt-4 p-3 bg-black/30 rounded">
+            <div class="text-xs opacity-70 mb-1">Next Level Progress</div>
+            <div class="progress-bar">
+              <div id="levelProgress" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between text-xs mt-1">
+              <span id="currentXP">0 XP</span>
+              <span id="nextLevel">100 XP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exercise Library -->
+    <section class="mb-8">
+      <h3 class="text-lg font-semibold mb-4">Exercise Library 💪</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="exercise-card" onclick="selectExercise('squats', 'Squats', 15, 0)">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-purple-600 rounded grid place-items-center">🦵</div>
+            <div>
+              <div class="font-semibold">Squats</div>
+              <div class="text-xs opacity-70">Legs • Strength</div>
+            </div>
+          </div>
+          <div class="mt-2 flex gap-1">
+            <span class="stat-badge bg-purple-600">+Strength</span>
+            <span class="stat-badge bg-yellow-600">+XP</span>
+          </div>
+        </div>
+
+        <div class="exercise-card" onclick="selectExercise('pushups', 'Push-ups', 12, 0)">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-red-600 rounded grid place-items-center">💪</div>
+            <div>
+              <div class="font-semibold">Push-ups</div>
+              <div class="text-xs opacity-70">Chest • Strength</div>
+            </div>
+          </div>
+          <div class="mt-2 flex gap-1">
+            <span class="stat-badge bg-red-600">+Strength</span>
+            <span class="stat-badge bg-yellow-600">+XP</span>
+          </div>
+        </div>
+
+        <div class="exercise-card" onclick="selectExercise('lunges', 'Lunges', 10, 0)">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-green-600 rounded grid place-items-center">🚶</div>
+            <div>
+              <div class="font-semibold">Lunges</div>
+              <div class="text-xs opacity-70">Legs • Balance</div>
+            </div>
+          </div>
+          <div class="mt-2 flex gap-1">
+            <span class="stat-badge bg-green-600">+Agility</span>
+            <span class="stat-badge bg-yellow-600">+XP</span>
+          </div>
+        </div>
+
+        <div class="exercise-card" onclick="selectExercise('plank', 'Plank', 1, 0)">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-600 rounded grid place-items-center">⏱️</div>
+            <div>
+              <div class="font-semibold">Plank</div>
+              <div class="text-xs opacity-70">Core • Endurance</div>
+            </div>
+          </div>
+          <div class="mt-2 flex gap-1">
+            <span class="stat-badge bg-blue-600">+Stamina</span>
+            <span class="stat-badge bg-yellow-600">+XP</span>
+          </div>
+        </div>
+
+        <div class="exercise-card" onclick="selectExercise('crunches', 'Crunches', 20, 0)">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-indigo-600 rounded grid place-items-center">🔥</div>
+            <div>
+              <div class="font-semibold">Crunches</div>
+              <div class="text-xs opacity-70">Abs • Core</div>
+            </div>
+          </div>
+          <div class="mt-2 flex gap-1">
+            <span class="stat-badge bg-indigo-600">+Stamina</span>
+            <span class="stat-badge bg-yellow-600">+XP</span>
+          </div>
+        </div>
+
+        <div class="exercise-card" onclick="selectExercise('jumpingjacks', 'Jumping Jacks', 30, 0)">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-orange-600 rounded grid place-items-center">⚡</div>
+            <div>
+              <div class="font-semibold">Jumping Jacks</div>
+              <div class="text-xs opacity-70">Cardio • Full Body</div>
+            </div>
+          </div>
+          <div class="mt-2 flex gap-1">
+            <span class="stat-badge bg-orange-600">+Agility</span>
+            <span class="stat-badge bg-yellow-600">+XP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Workouts -->
+    <section>
+      <h3 class="text-lg font-semibold mb-4">Recent Training Sessions</h3>
+      <div id="recentWorkouts" class="exercise-card">
+        <div class="text-center py-8 opacity-60">
+          No workouts logged yet. Start training to get stronger!
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+      alert("Please log in first!");
+      window.location.href = "login.html";
+    }
+
+    let userData = null;
+
+    // Load user data
+    async function loadUserData() {
+      try {
+        const res = await fetch("http://localhost:4000/profile", {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to load profile");
+        }
+
+        userData = await res.json();
+        
+        // Update UI with user data
+        document.getElementById("userHeroName").textContent = userData.heroName;
+        updateStatsDisplay();
+        updateRecentWorkouts();
+        updateWorkoutPreview();
+
+      } catch (error) {
+        console.error("Error loading user data:", error);
+        alert("Error loading profile. Please log in again.");
+        window.location.href = "login.html";
+      }
+    }
+
+    function updateStatsDisplay() {
+      if (!userData) return;
+      
+      document.getElementById("strengthDisplay").textContent = `Strength: ${userData.stats.strength}`;
+      document.getElementById("staminaDisplay").textContent = `Stamina: ${userData.stats.stamina}`;
+      document.getElementById("agilityDisplay").textContent = `Agility: ${userData.stats.agility}`;
+      document.getElementById("levelDisplay").textContent = `Level: ${userData.level}`;
+      
+      const xpForNextLevel = userData.level * 100;
+      const currentLevelXP = userData.xp % 100;
+      document.getElementById("xpDisplay").textContent = `${currentLevelXP}/${xpForNextLevel} XP`;
+      
+      // Update progress bar
+      const progressPercent = (currentLevelXP / xpForNextLevel) * 100;
+      document.getElementById("levelProgress").style.width = `${progressPercent}%`;
+      document.getElementById("currentXP").textContent = `${currentLevelXP} XP`;
+      document.getElementById("nextLevel").textContent = `${xpForNextLevel} XP`;
+    }
+
+    function updateRecentWorkouts() {
+      if (!userData || !userData.workouts || userData.workouts.length === 0) return;
+      
+      const container = document.getElementById("recentWorkouts");
+      const recentWorkouts = userData.workouts.slice(-5).reverse(); // Last 5 workouts
+      
+      container.innerHTML = recentWorkouts.map(workout => `
+        <div class="flex justify-between items-center py-3 border-b border-white/10 last:border-0">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-indigo-600 rounded grid place-items-center text-sm">💪</div>
+            <div>
+              <div class="font-semibold">${workout.name}</div>
+              <div class="text-xs opacity-70">
+                ${workout.reps} reps × ${workout.sets || 1} sets • ${workout.weight} lbs
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-yellow-400 text-sm font-semibold">+${workout.xp} XP</div>
+            <div class="text-xs opacity-70">${new Date(workout.date).toLocaleDateString()}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectExercise(type, name, defaultReps, defaultWeight) {
+      document.getElementById("exerciseType").value = type;
+      document.getElementById("exerciseReps").value = defaultReps;
+      document.getElementById("exerciseWeight").value = defaultWeight;
+      updateWorkoutPreview();
+    }
+
+    function updateWorkoutPreview() {
+      const exercise = document.getElementById("exerciseType").value;
+      const reps = parseInt(document.getElementById("exerciseReps").value) || 0;
+      const weight = parseInt(document.getElementById("exerciseWeight").value) || 0;
+      const sets = parseInt(document.getElementById("exerciseSets").value) || 1;
+      
+      // Calculate XP based on exercise intensity
+      const baseXP = Math.floor((reps * weight * sets) / 10) + 10;
+      
+      // Determine stat bonus based on exercise type
+      let statBonus = "Strength";
+      let statColor = "text-green-400";
+      
+      if (exercise.includes('squats') || exercise.includes('pushups')) {
+        statBonus = "Strength";
+        statColor = "text-green-400";
+      } else if (exercise.includes('plank') || exercise.includes('crunches')) {
+        statBonus = "Stamina";
+        statColor = "text-blue-400";
+      } else if (exercise.includes('lunges') || exercise.includes('jumping')) {
+        statBonus = "Agility";
+        statColor = "text-purple-400";
+      }
+      
+      // Calculate battle damage
+      const battleDamage = Math.floor((reps * weight) / 5) + userData.stats.strength;
+      
+      document.getElementById("previewExercise").textContent = document.getElementById("exerciseType").selectedOptions[0].text;
+      document.getElementById("previewXP").textContent = `+${baseXP} XP`;
+      document.getElementById("previewStat").textContent = `+${statBonus}`;
+      document.getElementById("previewStat").className = statColor;
+      document.getElementById("previewDamage").textContent = `+${battleDamage} Damage`;
+    }
+
+    async function logQuickWorkout() {
+      const exerciseType = document.getElementById("exerciseType").value;
+      const exerciseName = document.getElementById("exerciseType").selectedOptions[0].text;
+      const reps = parseInt(document.getElementById("exerciseReps").value) || 0;
+      const weight = parseInt(document.getElementById("exerciseWeight").value) || 0;
+      const sets = parseInt(document.getElementById("exerciseSets").value) || 1;
+      
+      if (reps <= 0) {
+        alert("Please enter a valid number of reps!");
+        return;
+      }
+      
+      // Calculate XP
+      const xp = Math.floor((reps * weight * sets) / 10) + 10;
+      
+      try {
+        const res = await fetch("http://localhost:4000/log-workout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            name: exerciseName,
+            reps: reps * sets, // Total reps including sets
+            weight: weight,
+            xp: xp
+          })
+        });
+        
+        const result = await res.json();
+        
+        if (result.success) {
+          let message = `Workout logged! +${xp} XP earned!`;
+          if (result.leveledUp) {
+            message += ` 🎉 LEVEL UP! You are now level ${result.newLevel}!`;
+          }
+          alert(message);
+          
+          // Reload user data to show updates
+          loadUserData();
+          
+          // Reset form
+          document.getElementById("exerciseReps").value = "10";
+          document.getElementById("exerciseWeight").value = "0";
+          document.getElementById("exerciseSets").value = "3";
+          updateWorkoutPreview();
+          
+        } else {
+          alert("Failed to log workout. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error logging workout:", error);
+        alert("Error logging workout. Please try again.");
+      }
+    }
+
+    // Add event listeners for real-time preview updates
+    document.getElementById("exerciseType").addEventListener("change", updateWorkoutPreview);
+    document.getElementById("exerciseReps").addEventListener("input", updateWorkoutPreview);
+    document.getElementById("exerciseWeight").addEventListener("input", updateWorkoutPreview);
+    document.getElementById("exerciseSets").addEventListener("input", updateWorkoutPreview);
+
+    // Load user data when page loads
+    document.addEventListener("DOMContentLoaded", loadUserData);
+  </script>
+</body>
+</html>
